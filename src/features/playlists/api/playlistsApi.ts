@@ -9,6 +9,7 @@ UpdatePlaylistArgs,
 
 export const playlistsApi = createApi({
   reducerPath: 'playlistsApi',
+  tagTypes: ['Playlists'],
   baseQuery: fetchBaseQuery({
     baseUrl: import.meta.env.VITE_BASE_URL,
 
@@ -20,7 +21,8 @@ export const playlistsApi = createApi({
   }),
   endpoints: (build) => ({
 fetchPlaylists: build.query<PlaylistsResponse, void  >({
-query: () =>  'playlists'
+query: () =>  'playlists',
+  providesTags: ['Playlists']
 }),
     createPlaylist: build.mutation<{data : PlaylistData}, CreatePlaylistArgs >({
       query: (body)  => {
@@ -29,7 +31,8 @@ query: () =>  'playlists'
           method: 'POST',
           body
         }
-      }
+      },
+      invalidatesTags: ['Playlists']
     }),
     deletePlaylist: build.mutation<void, string >({
       query: (playlistId)  => {
@@ -38,7 +41,8 @@ query: () =>  'playlists'
           method: 'DELETE',
 
         }
-      }
+      },
+      invalidatesTags: ['Playlists']
     }),
     updatePlaylist: build.mutation<void, { playlistId: string, body: UpdatePlaylistArgs  } >({
       query: ({playlistId, body})  => {
@@ -48,7 +52,9 @@ query: () =>  'playlists'
           method: 'PUT',
 
         }
-      }
+      },
+      invalidatesTags: ['Playlists']
+
     })
   })
 })
