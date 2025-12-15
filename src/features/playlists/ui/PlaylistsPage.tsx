@@ -1,3 +1,4 @@
+
 import { useDeletePlaylistMutation, useFetchPlaylistsQuery } from '@/features/playlists/api/playlistsApi.ts';
 import s from './PlaylistsPage.module.css'
 import { CreatePlaylistForm } from '@/features/playlists/ui/CreatePlaylistForm/CreatePlaylistForm.tsx'
@@ -54,10 +55,6 @@ const deletePlaylistHandler = (playlistId: string) => {
                 :
                <PlaylistItem playlist={playlist} deletePlaylistHandler={deletePlaylistHandler} editPlaylistHandler={editPlaylistHandler} />
               }
-
-
-
-
             </div>
 
           )

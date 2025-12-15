@@ -1,5 +1,5 @@
 
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { baseApi} from '@/app/api/baseApi.ts'
 import type {
   PlaylistsResponse,
 UpdatePlaylistArgs,
@@ -7,18 +7,7 @@ UpdatePlaylistArgs,
   CreatePlaylistArgs,
 } from '@/features/playlists/api/playlistsApi.types.ts';
 
-export const playlistsApi = createApi({
-  reducerPath: 'playlistsApi',
-  tagTypes: ['Playlists'],
-  baseQuery: fetchBaseQuery({
-    baseUrl: import.meta.env.VITE_BASE_URL,
-
-    prepareHeaders : (headers)=> {
-      headers.set('API-KEY', import.meta.env.VITE_API_KEY)
-      headers.set('Authorization', `Bearer ${import.meta.env.VITE_ACCESS_TOKEN}`)
-      return headers
-}
-  }),
+export const playlistsApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
 fetchPlaylists: build.query<PlaylistsResponse, void  >({
 query: () =>  'playlists',
@@ -58,5 +47,6 @@ query: () =>  'playlists',
     })
   })
 })
-
 export const {useFetchPlaylistsQuery, useCreatePlaylistMutation, useDeletePlaylistMutation, useUpdatePlaylistMutation} = playlistsApi
+
+
