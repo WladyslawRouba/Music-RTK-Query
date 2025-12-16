@@ -1,5 +1,6 @@
 
 import { baseApi} from '@/app/api/baseApi.ts'
+import type { Images } from '@/common/types/types.ts';
 import type {
   PlaylistsResponse,
 UpdatePlaylistArgs,
@@ -44,9 +45,38 @@ query: () =>  'playlists',
       },
       invalidatesTags: ['Playlists']
 
-    })
+    }),
+    uploadPlaylistCover: build.mutation< Images, { playlistId: string, file: File  }>({
+      query: ({playlistId, file})  => {
+        const formData = new FormData();
+        formData.append('file', file);
+        return {
+          url: `playlists/${playlistId}/images/main`,
+          body: formData,
+          method: 'POST',
+        }
+      },
+      invalidatesTags: ['Playlists']
+    }),
+    deletePlaylistCover: build.mutation<void,  {playlistId: string } >({
+      query: ({ playlistId })  => {
+        return {
+          url: `playlists/${playlistId}/images/main`,
+          method: 'DELETE',
+        }
+      },
+      invalidatesTags: ['Playlists']
+
+    }),
   })
 })
-export const {useFetchPlaylistsQuery, useCreatePlaylistMutation, useDeletePlaylistMutation, useUpdatePlaylistMutation} = playlistsApi
+export const {
+  useFetchPlaylistsQuery,
+  useCreatePlaylistMutation,
+  useDeletePlaylistMutation,
+  useUpdatePlaylistMutation,
+  useUploadPlaylistCoverMutation,
+useDeletePlaylistCoverMutation
+} = playlistsApi
 
 
