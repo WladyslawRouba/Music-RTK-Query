@@ -3,16 +3,16 @@ import { baseApi} from '@/app/api/baseApi.ts'
 import type { Images } from '@/common/types/types.ts';
 import type {
   PlaylistsResponse,
-UpdatePlaylistArgs,
+  UpdatePlaylistArgs,
   PlaylistData,
-  CreatePlaylistArgs,
+  CreatePlaylistArgs, FetchPlaylistsArgs,
 } from '@/features/playlists/api/playlistsApi.types.ts';
 
 export const playlistsApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
-fetchPlaylists: build.query<PlaylistsResponse, void  >({
-query: () =>  'playlists',
-  providesTags: ['Playlists']
+fetchPlaylists: build.query<PlaylistsResponse, FetchPlaylistsArgs  >({
+query: (params) => ({url :'playlists', params, }),
+  providesTags: ['Playlists'],
 }),
     createPlaylist: build.mutation<{data : PlaylistData}, CreatePlaylistArgs >({
       query: (body)  => {

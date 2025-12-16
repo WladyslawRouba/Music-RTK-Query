@@ -2,14 +2,15 @@ import { NavLink } from 'react-router-dom'
 import { Path } from '@/common/routing'
 import s from './Header.module.css'
 
-const navItems = [
-  { to: Path.Main, label: 'Main' },
-  { to: Path.Playlists, label: 'Playlists' },
-  { to: Path.Tracks, label: 'Tracks' },
-  { to: Path.Profile, label: 'Profile' },
-]
+
 
 export const Header = () => {
+  const navItems = [
+    { to: Path.Main, label: 'Main' },
+    { to: Path.Playlists, label: 'Playlists' },
+    { to: Path.Tracks, label: 'Tracks' },
+    { to: Path.Profile, label: 'Profile' },
+  ]
   return (
     <header className={s.container}>
       <nav>
