@@ -12,7 +12,7 @@ export const playlistsApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
 fetchPlaylists: build.query<PlaylistsResponse, FetchPlaylistsArgs  >({
 query: (params) => ({url :'playlists', params, }),
-  providesTags: ['Playlists'],
+  providesTags: ['Playlist'],
 }),
     createPlaylist: build.mutation<{data : PlaylistData}, CreatePlaylistArgs >({
       query: (body)  => {
@@ -22,7 +22,7 @@ query: (params) => ({url :'playlists', params, }),
           body
         }
       },
-      invalidatesTags: ['Playlists']
+      invalidatesTags: ['Playlist']
     }),
     deletePlaylist: build.mutation<void, string >({
       query: (playlistId)  => {
@@ -32,20 +32,49 @@ query: (params) => ({url :'playlists', params, }),
 
         }
       },
-      invalidatesTags: ['Playlists']
+      invalidatesTags: ['Playlist']
     }),
-    updatePlaylist: build.mutation<void, { playlistId: string, body: UpdatePlaylistArgs  } >({
-      query: ({playlistId, body})  => {
-        return {
-          url: `playlists/${playlistId}`,
-          body,
-          method: 'PUT',
 
+    updatePlaylist: build.mutation<void, { playlistId: string; body: UpdatePlaylistArgs }>({
+      query: ({ playlistId, body }) => ({ url: `playlists/${playlistId}`, method: 'put', body }),
+      async onQueryStarted({ playlistId, body }, { dispatch, queryFulfilled, getState }) {
+        const args = playlistsApi.util.selectCachedArgsForQuery(getState(), 'fetchPlaylists')
+
+        const patchResults: any[] = []
+
+        args.forEach(arg => {
+          patchResults.push(
+            dispatch(
+              playlistsApi.util.updateQueryData(
+                'fetchPlaylists',
+                {
+                  pageNumber: arg.pageNumber,
+                  pageSize: arg.pageSize,
+                  search: arg.search,
+                },
+                state => {
+                  const index = state.data.findIndex(playlist => playlist.id === playlistId)
+                  if (index !== -1) {
+                    state.data[index].attributes = { ...state.data[index].attributes, ...body }
+                  }
+                }
+              )
+            )
+          )
+        })
+
+        try {
+          await queryFulfilled
+        } catch {
+          patchResults.forEach(patchResult => {
+            patchResult.undo()
+          })
         }
       },
-      invalidatesTags: ['Playlists']
-
+      invalidatesTags: ['Playlist'],
     }),
+
+
     uploadPlaylistCover: build.mutation< Images, { playlistId: string, file: File  }>({
       query: ({playlistId, file})  => {
         const formData = new FormData();
@@ -56,7 +85,7 @@ query: (params) => ({url :'playlists', params, }),
           method: 'POST',
         }
       },
-      invalidatesTags: ['Playlists']
+      invalidatesTags: ['Playlist']
     }),
     deletePlaylistCover: build.mutation<void,  {playlistId: string } >({
       query: ({ playlistId })  => {
@@ -65,7 +94,7 @@ query: (params) => ({url :'playlists', params, }),
           method: 'DELETE',
         }
       },
-      invalidatesTags: ['Playlists']
+      invalidatesTags: ['Playlist']
 
     }),
   })
