@@ -1,6 +1,9 @@
 import { NavLink } from 'react-router-dom'
 import { Path } from '@/common/routing'
 import s from './Header.module.css'
+import { useGetMeQuery } from '@/features/auth/api/authApi.ts';
+import { Login } from '@/features/auth/ui/Login/Login.tsx';
+import { useLogoutMutation } from '@/features/auth/api/authApi.ts';
 
 
 
@@ -11,6 +14,11 @@ export const Header = () => {
     { to: Path.Tracks, label: 'Tracks' },
     { to: Path.Profile, label: 'Profile' },
   ]
+  const{data} = useGetMeQuery();
+  const [logout] = useLogoutMutation()
+
+  const logoutHandler = () => logout()
+
   return (
     <header className={s.container}>
       <nav>
@@ -27,6 +35,13 @@ export const Header = () => {
           ))}
         </ul>
       </nav>
+      {data && (
+        <div className={s.loginContainer}>
+          <p>{data.login}</p>
+          <button onClick={logoutHandler}>logout</button>
+        </div>
+      )}
+      {!data && <Login/>}
     </header>
   )
 }

@@ -14,6 +14,16 @@ export const handleErrors = (error: FetchBaseQueryError) => {
         break
 
       case 400:
+        if (isErrorWithDetailArray(error.data)) {
+          const errorMessage = error.data.errors[0].detail
+          if (errorMessage.includes("refreshToken")) return
+          errorToast(trimToMaxLength(errorMessage))
+        } else {
+          errorToast(JSON.stringify(error.data))
+        }
+        break
+
+
       case 403:
         if (isErrorWithDetailArray(error.data)) {
           errorToast(trimToMaxLength(error.data.errors[0].detail))
@@ -30,7 +40,6 @@ export const handleErrors = (error: FetchBaseQueryError) => {
         }
         break
 
-      case 401:
       case 429:
         if (isErrorWithProperty(error.data, 'message')) {
           errorToast(error.data.message)
