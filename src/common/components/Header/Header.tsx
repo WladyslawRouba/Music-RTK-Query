@@ -4,6 +4,7 @@ import s from './Header.module.css'
 import { useGetMeQuery } from '@/features/auth/api/authApi.ts';
 import { Login } from '@/features/auth/ui/Login/Login.tsx';
 import { useLogoutMutation } from '@/features/auth/api/authApi.ts';
+import { Link } from'react-router-dom';
 
 
 
@@ -12,7 +13,6 @@ export const Header = () => {
     { to: Path.Main, label: 'Main' },
     { to: Path.Playlists, label: 'Playlists' },
     { to: Path.Tracks, label: 'Tracks' },
-    { to: Path.Profile, label: 'Profile' },
   ]
   const{data} = useGetMeQuery();
   const [logout] = useLogoutMutation()
@@ -37,6 +37,7 @@ export const Header = () => {
       </nav>
       {data && (
         <div className={s.loginContainer}>
+          <Link to={Path.Profile}>{data.login}</Link>
           <p>{data.login}</p>
           <button onClick={logoutHandler}>logout</button>
         </div>

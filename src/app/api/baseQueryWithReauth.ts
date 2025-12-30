@@ -14,6 +14,7 @@ export const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, Fetch
   api,
   extraOptions
 ) => {
+  await new Promise(resolve => setTimeout(resolve, 2000))
   await mutex.waitForUnlock()
   let result = await baseQuery(args, api, extraOptions)
   if (result.error && result.error.status === 401) {
