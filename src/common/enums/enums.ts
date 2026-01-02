@@ -4,4 +4,3 @@ export const CurrentUserReaction = {
   None: 0,
 } as const
 
-export type CurrentUserReaction = (typeof CurrentUserReaction)[keyof typeof CurrentUserReaction]
