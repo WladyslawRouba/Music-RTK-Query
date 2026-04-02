@@ -14,7 +14,7 @@ export const Header = () => {
     { to: Path.Playlists, label: 'Playlists' },
     { to: Path.Tracks, label: 'Tracks' },
   ]
-  const{data} = useGetMeQuery();
+  const{data} = useGetMeQuery(undefined);
   const [logout] = useLogoutMutation()
 
   const logoutHandler = () => logout()

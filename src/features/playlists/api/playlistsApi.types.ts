@@ -7,6 +7,10 @@ export type PlaylistMeta = z.infer<typeof playlistMetaSchema>
 export type PlaylistAttributes = z.infer<typeof playlistAttributesSchema>
 export type PlaylistData = z.infer<typeof playlistDataSchema>
 export type PlaylistsResponse = z.infer<typeof playlistsResponseSchema>
+export type PlaylistAttributesView = PlaylistAttributes & { description: string }
+export type PlaylistDataView = Omit<PlaylistData, 'attributes'> & {
+  attributes: PlaylistAttributesView
+}
 
 // Arguments
 export type FetchPlaylistsArgs = {
@@ -24,6 +28,6 @@ export type CreatePlaylistArgs = z.infer<typeof createPlaylistSchema>
 
 export type UpdatePlaylistArgs = {
   title: string
-  description: string
-  tagIds: string[]
+  description?: string
+  tagIds?: string[]
 }

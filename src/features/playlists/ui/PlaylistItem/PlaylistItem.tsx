@@ -1,10 +1,10 @@
-import type { PlaylistData } from '@/features/playlists/api/playlistsApi.types.ts';
+import type { PlaylistDataView } from '@/features/playlists/api/playlistsApi.types.ts';
 import { PlaylistCover } from '@/features/playlists/ui/PlaylistItem/PlaylistCover/PlaylistCover.tsx';
 import { PlaylistDescription } from '@/features/playlists/ui/PlaylistItem/PlaylistDescription/PlaylistDescription.tsx';
 type Props = {
-  playlist: PlaylistData
+  playlist: PlaylistDataView
   deletePlaylistHandler: (playlistId: string) => void
-  editPlaylistHandler: (playlist: PlaylistData) => void
+  editPlaylistHandler: (playlist: PlaylistDataView) => void
 }
 
 export const PlaylistItem = ({ playlist, deletePlaylistHandler, editPlaylistHandler }: Props) => {
@@ -18,4 +18,3 @@ export const PlaylistItem = ({ playlist, deletePlaylistHandler, editPlaylistHand
       </div>
     )
   }
-

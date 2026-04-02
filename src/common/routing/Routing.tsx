@@ -11,7 +11,7 @@ export const Path = {
   Playlists: '/playlists',
   Tracks: '/tracks',
   Profile: '/profile',
-  OAuthRedirect: '/oauth/callback',
+  OAuthRedirect: '/oauth2/callback',
   NotFound: '*',
 } as const
 
