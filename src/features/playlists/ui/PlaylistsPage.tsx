@@ -7,6 +7,7 @@ import { useDebounceValue } from '@/common/hooks/useDebounceValue';
   import { Pagination } from '@/common/components'
 import type { ChangeEvent } from 'react';
 import { PlaylistList } from '@/features/playlists/ui/PlaylistList/PlaylistList.tsx';
+import type { PlaylistDataView } from '@/features/playlists/api/playlistsApi.types.ts';
 
 
 
@@ -37,6 +38,15 @@ export const PlaylistsPage = () => {
     setSearch(e.currentTarget.value)
     setCurrentPage(1)
   }
+
+  const playlists: PlaylistDataView[] = (data?.data || []).map(playlist => ({
+    ...playlist,
+    attributes: {
+      ...playlist.attributes,
+      description: playlist.attributes.description ?? '',
+    },
+  }))
+
 if (isLoading) return <div>Skeleton loading ...</div>
   return (
     <div className={s.container}>
@@ -46,7 +56,7 @@ if (isLoading) return <div>Skeleton loading ...</div>
              placeholder="Search playlists by title"
              onChange={e => searchPlaylistHandler(e)}
       />
-      <PlaylistList isPlayListsLoading={isLoading} playlists={data?.data || []} />
+      <PlaylistList isPlayListsLoading={isLoading} playlists={playlists} />
 
       <Pagination
         currentPage={currentPage}

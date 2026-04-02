@@ -1,14 +1,14 @@
-import type { PlaylistAttributes } from '@/features/playlists/api/playlistsApi.types.ts';
+import type { PlaylistAttributesView } from '@/features/playlists/api/playlistsApi.types.ts';
 
 type Props = {
-  attributes: PlaylistAttributes
+  attributes: PlaylistAttributesView
 }
 
 export const PlaylistDescription = ({attributes}: Props) => {
   return (
    <>
      <div>title: {attributes.title}</div>
-     <div>description: {attributes.description}</div>
+     <div>description: {attributes.description ?? ''}</div>
      <div>userName: {attributes.user.name}</div>
    </>
   )

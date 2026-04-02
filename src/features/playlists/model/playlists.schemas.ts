@@ -17,7 +17,7 @@ export const playlistMetaSchema = z.object({
 
 export const playlistAttributesSchema = z.object({
   title: z.string(),
-  description: z.string(),
+  description: z.string().optional().default(''),
   addedAt: z.iso.datetime(),
   updatedAt: z.iso.datetime(),
   order: z.int(),
@@ -27,6 +27,8 @@ export const playlistAttributesSchema = z.object({
   images: imagesSchema,
   user: userSchema,
   currentUserReaction: currentUserReactionSchema,
+  tracksCount: z.int().nonnegative().optional(),
+  duration: z.int().nonnegative().optional(),
 })
 
 export const playlistDataSchema = z.object({
